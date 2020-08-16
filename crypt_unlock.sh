@@ -1,5 +1,6 @@
 #!/bin/sh
 # /usr/share/initramfs-tools/hooks/crypt_unlock.sh
+# Changes made to follow https://openzfs.github.io/openzfs-docs/Getting%20Started/Debian/Debian%20Buster%20Root%20on%20ZFS.html#step-5-grub-installation
 
 PREREQ="dropbear"
 
@@ -24,13 +25,10 @@ cat > "${DESTDIR}/bin/unlock" << EOF
 if PATH=/lib/unlock:/bin:/sbin /scripts/local-top/cryptroot; then 
 kill `ps | grep zfs | grep -v "grep" | awk '{print $1}'` 
 /sbin/zfs load-key -a
-# rpool/root 
+# rpool
 # your zpool name and root zfs name and the mountpoint
 mount -o zfsutil -t zfs rpool/root /
-kill `ps | grep plymouth | grep -v "grep" | awk '{print $1}'` 
-kill `ps | grep cryptroot | grep -v "grep" | awk '{print $1}'`
-# following line kill the remote shell right after the passphrase has been entered. 
-kill -9 `ps | grep "\-sh" | grep -v "grep" | awk '{print $1}'`
+kill `ps | grep zfs | grep -v "grep" | awk '{print $1}'` 
 exit 0 
 fi 
 exit 1 
