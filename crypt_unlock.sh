@@ -27,7 +27,7 @@ kill `ps | grep zfs | grep -v "grep" | awk '{print $1}'`
 /sbin/zfs load-key -a
 # rpool
 # your zpool name and root zfs name and the mountpoint
-mount -o zfsutil -t zfs rpool/root /
+mount -o zfsutil -t zfs rpool /
 kill `ps | grep zfs | grep -v "grep" | awk '{print $1}'` 
 exit 0 
 fi 
